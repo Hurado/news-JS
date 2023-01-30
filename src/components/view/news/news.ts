@@ -1,11 +1,22 @@
 import './news.css';
+interface NewsData {
+    urlToImage?: string;
+    author?: string;
+    publishedAt: string;
+    title: string;
+    source: {
+        name: string;
+    };
+    description: string;
+    url: string;
+}
 
 class News {
-    draw(data) {
+    draw(data: NewsData[]) {
         const news = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
         const fragment = document.createDocumentFragment();
-        const newsItemTemp = document.querySelector('#newsItemTemp');
+        const newsItemTemp = document.querySelector('#newsItemTemp')!;
 
         news.forEach((item, idx) => {
             const newsClone = newsItemTemp.content.cloneNode(true);
@@ -29,9 +40,11 @@ class News {
 
             fragment.append(newsClone);
         });
+        const newsEl = document.querySelector('.news');
+        if (!newsEl) return;
 
-        document.querySelector('.news').innerHTML = '';
-        document.querySelector('.news').appendChild(fragment);
+        newsEl.innerHTML = '';
+        newsEl.appendChild(fragment);
     }
 }
 
